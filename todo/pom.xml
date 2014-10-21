@@ -18,13 +18,13 @@
 		<jstl.version>1.2</jstl.version>
 		<servlet.version>3.0.1</servlet.version>
 
-
 		<!-- Spring -->
 		<spring-framework.version>4.1.0.RELEASE</spring-framework.version>
 
 		<!-- Hibernate / JPA -->
 		<hibernate.version>4.3.6.Final</hibernate.version>
 		<database.postgresql.version>9.3-1102-jdbc41</database.postgresql.version>
+		<database.mysql.version>5.1.6</database.mysql.version>
 
 		<!-- Logging -->
 		<logback.version>1.1.2</logback.version>
@@ -97,10 +97,16 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.postgresql</groupId> -->
+<!-- 			<artifactId>postgresql</artifactId> -->
+<!-- 			<version>${database.postgresql.version}</version> -->
+<!-- 		</dependency> -->
+
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${database.postgresql.version}</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${database.mysql.version}</version>
 		</dependency>
 
 		<dependency>

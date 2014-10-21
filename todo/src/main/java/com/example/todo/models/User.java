@@ -26,8 +26,7 @@ public class User implements java.io.Serializable {
 	private Integer userId;
 	private String userName;
 	private String userPassword;
-	private Set<Message> messages = new HashSet<Message>(
-			0);
+	private Set<Message> messages = new HashSet<Message>(0);
  
 	public User() {
 	}
@@ -73,7 +72,7 @@ public class User implements java.io.Serializable {
 		this.userPassword = userPassword;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "messageSender")
 	public Set<Message> getMessages() {
 		return this.messages;
 	}
