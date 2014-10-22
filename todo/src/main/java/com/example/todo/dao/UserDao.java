@@ -7,9 +7,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.example.todo.models.User;
 
+@Repository
 public class UserDao {
 	@Autowired
 	private SessionFactory sessionFactory;

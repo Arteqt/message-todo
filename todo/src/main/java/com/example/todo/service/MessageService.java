@@ -11,41 +11,56 @@ import com.example.todo.models.Message;
 import com.example.todo.models.User;
 
 @Service
-public class MessageService implements Serializable{
-	/**
-	 * 
-	 */
+public class MessageService implements Serializable {
+
 	private static final long serialVersionUID = 8529339097663168581L;
-	
+
 	@Autowired
 	private MessageDao messageDao;
-	
-	public void sendMessage(Message message){
+
+	public void sendMessage(Message message) {
 		messageDao.save(message);
 	}
-	
-	@SuppressWarnings("null")
-	public List<Message> getOutbox(User user){
-		List<Message> outbox = null;
-		for(Message message : messageDao.list())
+
+	public void removeMessage(Message message) {
+		messageDao.delete(message);
+	}
+
+	public Message readMessage(Message message){
+		List<Message> messages = messageDao.list();
+		for(Message m : messages)
 		{
-			if(message.getMessageReceiver()==user){
+			if(m.getMessageId()==message.getMessageId()){
+				return m;
+			}
+		}
+		return null;
+	}
+	@SuppressWarnings("null")
+	public List<Message> getOutbox(User user) {
+		List<Message> outbox = null;
+		for (Message message : messageDao.list()) {
+			if (message.getMessageSender() == user) {
 				outbox.add(message);
 			}
 		}
 		return outbox;
 	}
-	
+
 	@SuppressWarnings("null")
-	public List<Message> getInbox(User user){
+	public List<Message> getInbox(User user) {
 		List<Message> inbox = null;
-		for(Message message : messageDao.list()){
-			if(message.getMessageReceiver()==user){
+		for (Message message : messageDao.list()) {
+			if (message.getMessageReceiver() == user) {
 				inbox.add(message);
 			}
 		}
 		return inbox;
 	}
 	
-	
+	/*Test: List all messages*/
+	public List<Message> listMessages(){
+		return messageDao.list();
+	}
+
 }

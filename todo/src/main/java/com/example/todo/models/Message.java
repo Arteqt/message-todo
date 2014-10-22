@@ -32,7 +32,7 @@ public class Message implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "MESSAGE_ID", unique = true, nullable = false)
+	@Column(name = "messageId", unique = true, nullable = false)
 	public Integer getMessageId() {
 		return this.messageId;
 	}
@@ -61,7 +61,7 @@ public class Message implements java.io.Serializable {
 	
 	
 	
-	@Column(name = "MESSAGE_CONTENT", nullable = false)
+	@Column(name = "messageContent", nullable = false)
 	public String getMessageContent() {
 		return this.messageContent;
 	}

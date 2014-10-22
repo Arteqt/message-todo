@@ -16,8 +16,8 @@ import javax.persistence.UniqueConstraint;
  
 @Entity
 @Table(name = "user", catalog = "mysqldb", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "USER_PASSWORD"),
-		@UniqueConstraint(columnNames = "USER_NAME") })
+		@UniqueConstraint(columnNames = "userPassword"),
+		@UniqueConstraint(columnNames = "userName") })
 public class User implements java.io.Serializable {
  
 	
@@ -45,7 +45,7 @@ public class User implements java.io.Serializable {
  
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "USER_ID", unique = true, nullable = false)
+	@Column(name = "userId", unique = true, nullable = false)
 	public Integer getUserId() {
 		return this.userId;
 	}
@@ -54,7 +54,7 @@ public class User implements java.io.Serializable {
 		this.userId = userId;
 	}
  
-	@Column(name = "USER_NAME", unique = true, nullable = false)
+	@Column(name = "userName", unique = false, nullable = false)
 	public String getUserName() {
 		return this.userName;
 	}
@@ -63,7 +63,7 @@ public class User implements java.io.Serializable {
 		this.userName = userName;
 	}
  
-	@Column(name = "USER_PASSWORD", unique = true, nullable = false)
+	@Column(name = "userPassword", unique = false, nullable = false)
 	public String getUserPassword() {
 		return this.userPassword;
 	}
