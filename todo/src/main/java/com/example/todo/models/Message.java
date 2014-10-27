@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "message", catalog = "mysqldb")
+@Table
 public class Message implements java.io.Serializable {
 
 	private static final long serialVersionUID = -5001640410168279934L;

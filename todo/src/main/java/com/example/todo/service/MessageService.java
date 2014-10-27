@@ -26,16 +26,10 @@ public class MessageService implements Serializable {
 		messageDao.delete(message);
 	}
 
-	public Message readMessage(Message message){
-		List<Message> messages = messageDao.list();
-		for(Message m : messages)
-		{
-			if(m.getMessageId()==message.getMessageId()){
-				return m;
-			}
-		}
-		return null;
+	public Message readMessage(Message message) {
+		return messageDao.findById(message.getMessageId());
 	}
+
 	@SuppressWarnings("null")
 	public List<Message> getOutbox(User user) {
 		List<Message> outbox = null;
@@ -57,9 +51,9 @@ public class MessageService implements Serializable {
 		}
 		return inbox;
 	}
-	
-	/*Test: List all messages*/
-	public List<Message> listMessages(){
+
+	/* Test: List all messages */
+	public List<Message> listMessages() {
 		return messageDao.list();
 	}
 
