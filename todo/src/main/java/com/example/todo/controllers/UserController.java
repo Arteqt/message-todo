@@ -36,9 +36,9 @@ public class UserController {
 		return "user";
 	}
 
-	/* TEST: Change User name & Password or Registration */
+	/* TEST: Registration */
 	@RequestMapping(value = "/add")
-	public String createUser(/*@ModelAttribute("user")*/User user) {
+	public String createUser(User user) {
 		userService.createUser(user);
 		return "redirect:/users";
 	}
