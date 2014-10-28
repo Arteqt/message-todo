@@ -36,6 +36,16 @@ public class UserDao {
 		return user;
 	}
 
+	public User findUserById(int id) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.eq("userId", id));
+
+		User user = (User) criteria.uniqueResult();
+		session.close();
+		return user;
+	}
+
 	public List<User> list() {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(User.class);

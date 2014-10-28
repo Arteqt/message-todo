@@ -57,4 +57,8 @@ public class UserService implements Serializable {
 	public User findUserByCredentials(String username, String password) {
 		return userDao.findUserByCredentials(username, password);
 	}
+
+	public User findUserById(int id) {
+		return userDao.findUserById(id);
+	}
 }
