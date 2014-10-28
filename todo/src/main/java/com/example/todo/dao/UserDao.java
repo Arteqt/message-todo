@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,8 +28,8 @@ public class UserDao {
 	public User findUserByCredentials(String username, String password) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(User.class);
-
-		// TODO
+		criteria.add(Restrictions.eq("userName", username));
+		criteria.add(Restrictions.eq("userPassword", password));
 
 		User user = (User) criteria.uniqueResult();
 		session.close();

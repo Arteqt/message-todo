@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.example.todo.models.Message;
+import com.example.todo.models.User;
 
 @Repository
 public class MessageDao {
@@ -18,15 +19,15 @@ public class MessageDao {
 	private SessionFactory sessionFactory;
 
 	public void save(Message message) {
-		Session session = this.sessionFactory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.persist(message);
 		tx.commit();
 		session.close();
 	}
-	
-	public Message findById(long id) {
-		Session session = this.sessionFactory.openSession();
+
+	public Message findById(Integer id) {
+		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
 		criteria.add(Restrictions.eq("messageId", id));
 
@@ -36,8 +37,8 @@ public class MessageDao {
 		return message;
 	}
 
-	public List<Message> list() {
-		Session session = this.sessionFactory.openSession();
+	public List<Message> allMessages() {
+		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
 
 		@SuppressWarnings("unchecked")
@@ -47,8 +48,32 @@ public class MessageDao {
 		return messageList;
 	}
 
+	public List<Message> inbox(User receiver) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Message.class);
+		criteria.add(Restrictions.eq("messageReceiver", receiver));
+
+		@SuppressWarnings("unchecked")
+		List<Message> inbox = criteria.list();
+
+		session.close();
+		return inbox;
+	}
+
+	public List<Message> outbox(User sender) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Message.class);
+		criteria.add(Restrictions.eq("messageSender", sender));
+
+		@SuppressWarnings("unchecked")
+		List<Message> outbox = criteria.list();
+
+		session.close();
+		return outbox;
+	}
+
 	public void delete(Message message) {
-		Session session = this.sessionFactory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.delete(message);
 		tx.commit();
@@ -56,7 +81,7 @@ public class MessageDao {
 	}
 
 	public void update(Message message) {
-		Session session = this.sessionFactory.openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.update(message);
 		tx.commit();

@@ -44,7 +44,7 @@ public class MessageController {
 		return "redirect:/messages";
 	}
 
-	/* Out-box */
+	// Out-box
 	@RequestMapping(value = "/outbox")
 	public String outbox(@ModelAttribute("user") User user, Model model) {
 		List<Message> outbox = messageService.getOutbox(user);
@@ -55,21 +55,14 @@ public class MessageController {
 		return "redirect:/messages";
 	}
 
-	/* Send Message */
-	@RequestMapping(value = "/send")
-	public String sendMessage(@ModelAttribute("message") Message message) {
-		messageService.sendMessage(message);
-		return "redirect:/messages";
-	}
-
-	/* Remove Message */
+	// Remove Message
 	@RequestMapping(value = "/remove")
 	public String removeMessage(@ModelAttribute("message") Message message) {
 		messageService.removeMessage(message);
 		return "redirect:/messages";
 	}
 
-	/* Read Message */
+	// Read Message
 	@RequestMapping(value = "/read/{message}")
 	public String readMessage(@ModelAttribute("message") Message message,
 			Model model) {

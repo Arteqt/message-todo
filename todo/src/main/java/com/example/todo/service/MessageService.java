@@ -18,7 +18,15 @@ public class MessageService implements Serializable {
 	@Autowired
 	private MessageDao messageDao;
 
-	public void sendMessage(Message message) {
+	// TODO: Ask what is the best practice
+	public void sendMessage(String messageContent, String messageSubject,
+			User messageSender, User messageReceiver) {
+		Message message = new Message();
+		message.setMessageContent(messageContent);
+		message.setMessageSubject(messageSubject);
+		message.setMessageReceiver(messageReceiver);
+		message.setMessageSender(messageSender);
+
 		messageDao.save(message);
 	}
 
@@ -30,31 +38,19 @@ public class MessageService implements Serializable {
 		return messageDao.findById(message.getMessageId());
 	}
 
-	@SuppressWarnings("null")
-	public List<Message> getOutbox(User user) {
-		List<Message> outbox = null;
-		for (Message message : messageDao.list()) {
-			if (message.getMessageSender() == user) {
-				outbox.add(message);
-			}
-		}
-		return outbox;
+	public List<Message> getOutbox(User sender) {
+		return messageDao.inbox(sender);
 	}
 
-	@SuppressWarnings("null")
-	public List<Message> getInbox(User user) {
-		List<Message> inbox = null;
-		for (Message message : messageDao.list()) {
-			if (message.getMessageReceiver() == user) {
-				inbox.add(message);
-			}
-		}
-		return inbox;
+	public List<Message> getInbox(User receiver) {
+		return messageDao.outbox(receiver);
 	}
 
-	/* Test: List all messages */
+	/**
+	 * Test: List all messages
+	 */
 	public List<Message> listMessages() {
-		return messageDao.list();
+		return messageDao.allMessages();
 	}
 
 }

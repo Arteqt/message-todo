@@ -24,8 +24,8 @@ public class UserService implements Serializable {
 	}
 
 	public User readUser(String id) {
-		for(User user : userDao.list()){
-			if(user.getUserId().toString().contentEquals(id)){
+		for (User user : userDao.list()) {
+			if (user.getUserId().toString().contentEquals(id)) {
 				return user;
 			}
 		}
@@ -33,24 +33,28 @@ public class UserService implements Serializable {
 	}
 
 	public void updateUser(String id) {
-		for(User user : userDao.list()){
-			if(user.getUserId().toString().contentEquals(id)){
+		for (User user : userDao.list()) {
+			if (user.getUserId().toString().contentEquals(id)) {
 				userDao.update(user);
 			}
 		}
 	}
 
 	public void deleteUser(String id) {
-		
-		for(User user : userDao.list()){
-			if(user.getUserId().toString().contentEquals(id)){
+
+		for (User user : userDao.list()) {
+			if (user.getUserId().toString().contentEquals(id)) {
 				userDao.delete(user);
 			}
 		}
-		
+
 	}
 
 	public List<User> listUsers() {
 		return userDao.list();
+	}
+
+	public User findUserByCredentials(String username, String password) {
+		return userDao.findUserByCredentials(username, password);
 	}
 }
