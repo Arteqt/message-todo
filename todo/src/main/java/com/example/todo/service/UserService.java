@@ -54,6 +54,10 @@ public class UserService implements Serializable {
 		return userDao.list();
 	}
 
+	public List<User> listUsersExcept(int id) {
+		return userDao.listAllUsersExcept(id);
+	}
+
 	public User findUserByCredentials(String username, String password) {
 		return userDao.findUserByCredentials(username, password);
 	}

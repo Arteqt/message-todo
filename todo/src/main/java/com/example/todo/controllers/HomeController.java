@@ -30,11 +30,13 @@ public class HomeController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String listUsers(Model model, HttpSession session) {
 		User user = new User();
-		List<User> users = userService.listUsers();
-
-		// session.getAttribute("logged");
+		User loggedUser = (User) session.getAttribute("loggedUser");
+		if (loggedUser != null) {
+			List<User> otherUsers = userService.listUsersExcept(loggedUser
+					.getUserId());
+			model.addAttribute("otherUsers", otherUsers);
+		}
 		model.addAttribute("user", user);
-		model.addAttribute("listUsers", users);
 		return "home";
 	}
 

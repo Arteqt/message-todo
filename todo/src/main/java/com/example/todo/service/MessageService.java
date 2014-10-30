@@ -18,7 +18,6 @@ public class MessageService implements Serializable {
 	@Autowired
 	private MessageDao messageDao;
 
-	// TODO: Ask what is the best practice
 	public void sendMessage(String messageContent, String messageSubject,
 			User messageSender, User messageReceiver) {
 		Message message = new Message();
@@ -34,23 +33,15 @@ public class MessageService implements Serializable {
 		messageDao.delete(message);
 	}
 
-	public Message readMessage(Message message) {
-		return messageDao.findById(message.getMessageId());
+	public Message readMessage(int id) {
+		return messageDao.findById(id);
 	}
 
 	public List<Message> getOutbox(User sender) {
-		return messageDao.inbox(sender);
+		return messageDao.outbox(sender);
 	}
 
 	public List<Message> getInbox(User receiver) {
-		return messageDao.outbox(receiver);
+		return messageDao.inbox(receiver);
 	}
-
-	/**
-	 * Test: List all messages
-	 */
-	public List<Message> listMessages() {
-		return messageDao.allMessages();
-	}
-
 }

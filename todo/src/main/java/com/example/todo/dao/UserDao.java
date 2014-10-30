@@ -25,6 +25,17 @@ public class UserDao {
 		session.close();
 	}
 
+	public List<User> listAllUsersExcept(int id) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.ne("userId", id));
+
+		@SuppressWarnings("unchecked")
+		List<User> userList = criteria.list();
+		session.close();
+		return userList;
+	}
+
 	public User findUserByCredentials(String username, String password) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(User.class);

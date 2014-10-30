@@ -83,7 +83,7 @@
 					<div class="dropdown">
 						<label for="receiver">Receiver</label> <select name="receiver"
 							class="form-control">
-							<c:forEach items="${listUsers}" var="user">
+							<c:forEach items="${otherUsers}" var="user">
 								<option value="${user.userId}">${user.userName}</option>
 							</c:forEach>
 

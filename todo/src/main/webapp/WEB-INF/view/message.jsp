@@ -1,125 +1,162 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ page session="false" %>
-<html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>message Page</title>
-    <style type="text/css">
-        .tg  {border-collapse:collapse;border-spacing:0;border-color:#ccc;}
-        .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#fff;}
-        .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#ccc;color:#333;background-color:#f0f0f0;}
-        .tg .tg-4eph{background-color:#f9f9f9}
-    </style>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Message-Todo</title>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+
+<!-- Custom styles for this template -->
+<link href="http://getbootstrap.com/examples/jumbotron/jumbotron.css"
+	rel="stylesheet">
+
+<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+<!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
-<h1>
-    Send a message
-</h1>
- 
-<c:url var="sendAction" value="/messages/send" ></c:url>
- 
-<form:form action="${sendAction}" commandName="message">
-<table>
-    <c:if test="${!empty message.messageId}">
-    <tr>
-        <td>
-            <form:label path="messageId">
-                <spring:message text="ID"/>
-            </form:label>
-        </td>
-        <td>
-            <form:input path="messageId" readonly="true" size="8"  disabled="true" />
-            <form:hidden path="messageId" />
-        </td> 
-    </tr>
-    </c:if>
-    <tr>
-        <td>
-            <form:label path="messageSender">
-                <spring:message text="Sender"/>
-            </form:label>
-        </td>
-        <td>
-            <form:input path="messageSender" />
-        </td> 
-    </tr>
-    <tr>
-        <td>
-            <form:label path="messageReceiver">
-                <spring:message text="Receiver"/>
-            </form:label>
-        </td>
-        <td>
-            <form:input path="messageReceiver" />
-        </td> 
-    </tr>
-    <tr>
-        <td>
-            <form:label path="messageContent">
-                <spring:message text="Content"/>
-            </form:label>
-        </td>
-        <td>
-            <form:input path="messageContent" />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <c:if test="${!empty message.messageId}">
-                <input type="submit"
-                    value="<spring:message text="Edit message"/>" />
-            </c:if>
-            <c:if test="${empty message.messageId}">
-                <input type="submit"
-                    value="<spring:message text="Add message"/>" />
-            </c:if>
-        </td>
-    </tr>
-</table>  
-</form:form>
-<br>
-<h3>messages List</h3>
-<c:if test="${!empty listmessages}">
-    <table class="tg">
-    <tr>
-        <th width="80">Message ID</th>
-        <th width="120">Message Sender</th>
-        <th width="120">Message Receiver</th>
-        <th width="240">Message Content</th>
-        <th width="60">Delete</th>
-    </tr>
-    <c:forEach items="${listMessages}" var="message">
-        <tr>
-            <td>${message.messageId}</td>
-            <td>${message.messageSender}</td>
-            <td>${message.messageReceiver}</td>
-            <td>${message.messageContent}</td>
-            <td><a href="<c:url value='messages/delete/${message.messageId}' />" >Delete</a></td>
-        </tr>
-    </c:forEach>
-    </table>
-</c:if>
-<h3>Users List</h3>
-<c:if test="${!empty listUsers}">
-    <table class="tg">
-    <tr>
-        <th width="80">User ID</th>
-        <th width="120">User Name</th>
-        <th width="120">User Password</th>
-        <th width="60">Edit</th>
-        <th width="60">Delete</th>
-    </tr>
-    <c:forEach items="${sessionScope.listUsers}" var="sessionScope.user">
-        <tr>
-            <td>${user.userId}</td>
-            <td>${user.userName}</td>
-            <td>${user.userPassword}</td>
-            <td><a href="<c:url value='users/update/${user.userId}' />" >Edit</a></td>
-            <td><a href="<c:url value='users/delete/${user.userId}' />" >Delete</a></td>
-        </tr>
-    </c:forEach>
-    </table>
-</c:if>
+
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">MESSAGE-TODO</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<c:if test="${empty loggedUser}">
+					<form action="home/login" method="post"
+						class="navbar-form navbar-right" role="form">
+						<div class="form-group">
+							<input name="username" type="text" placeholder="Username"
+								class="form-control">
+						</div>
+						<div class="form-group">
+							<input name="password" type="password" placeholder="Password"
+								class="form-control">
+						</div>
+						<button type="submit" class="btn btn-success">Sign in</button>
+					</form>
+				</c:if>
+				<c:if test="${!empty loggedUser}">
+					<pre>Welcome ${loggedUser.userName}</pre>
+					<form action="home/logout" method="get">
+						<button type="submit" class="btn btn-success">Log-out</button>
+					</form>
+				</c:if>
+			</div>
+			<!--/.navbar-collapse -->
+		</div>
+	</div>
+
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div class="jumbotron">
+		<div class="container">
+			<h1>Your Messages</h1>
+			<div class="tab-pane active" id="pills-stacked">
+				<div class="tabbable">
+					<ul class="nav nav-pills nav-stacked span2">
+						<li class=""><a href="#tabs5-pane1" data-toggle="tab">Inbox<span
+							class="badge">${inboxSize}</span></a></li>
+						<li class="active"><a href="#tabs5-pane2" data-toggle="tab">Outbox<span
+							class="badge">${outboxSize}</span></a></li>
+							
+					</ul>
+					<div class="tab-content span5">
+						<div id="tabs5-pane1" class="tab-pane">
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th width="80">Sender</th>
+										<th width="80">Subject</th>
+										<th width="160">Content</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${inbox}" var="message">
+										<tr class="clickableRow"
+											data-url="messages/${message.messageId}">
+											<td>${message.messageSender.userName}</td>
+											<td>${message.messageSubject}</td>
+											<td>${message.messageContent}</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+						<div id="tabs5-pane2" class="tab-pane active">
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th width="80">Receiver</th>
+										<th width="80">Subject</th>
+										<th width="160">Content</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${outbox}" var="message">
+										<tr class="clickableRow"
+											data-url="messages/${message.messageId}">
+											<td>${message.messageReceiver.userName}</td>
+											<td>${message.messageSubject}</td>
+											<td>${message.messageContent}</td>
+										</tr>
+
+										<br>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- /.tab-content -->
+				</div>
+				<!-- /.tabbable -->
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+
+	<script>
+		jQuery(document).ready(function($) {
+			$(".clickableRow").click(function() {
+				window.document.location = $(this).data('url');
+			});
+		});
+	</script>
 </body>
 </html>
