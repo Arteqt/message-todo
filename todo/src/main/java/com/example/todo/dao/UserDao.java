@@ -25,10 +25,10 @@ public class UserDao {
 		session.close();
 	}
 
-	public List<User> listAllUsersExcept(int id) {
+	public List<User> listAllUsersExcept(long id) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(User.class);
-		criteria.add(Restrictions.ne("userId", id));
+		criteria.add(Restrictions.ne("id", id));
 
 		@SuppressWarnings("unchecked")
 		List<User> userList = criteria.list();
@@ -39,18 +39,18 @@ public class UserDao {
 	public User findUserByCredentials(String username, String password) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(User.class);
-		criteria.add(Restrictions.eq("userName", username));
-		criteria.add(Restrictions.eq("userPassword", password));
+		criteria.add(Restrictions.eq("name", username));
+		criteria.add(Restrictions.eq("password", password));
 
 		User user = (User) criteria.uniqueResult();
 		session.close();
 		return user;
 	}
 
-	public User findUserById(int id) {
+	public User findUserById(long id) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(User.class);
-		criteria.add(Restrictions.eq("userId", id));
+		criteria.add(Restrictions.eq("id", id));
 
 		User user = (User) criteria.uniqueResult();
 		session.close();

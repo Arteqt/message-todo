@@ -17,52 +17,28 @@ public class UserService implements Serializable {
 	@Autowired
 	private UserDao userDao;
 
-	/* Simple CRUD operations */
-
 	public void createUser(User user) {
 		userDao.save(user);
 	}
 
-	public User readUser(String id) {
-		for (User user : userDao.list()) {
-			if (user.getUserId().toString().contentEquals(id)) {
-				return user;
-			}
-		}
-		return null;
-	}
-
-	public void updateUser(String id) {
-		for (User user : userDao.list()) {
-			if (user.getUserId().toString().contentEquals(id)) {
-				userDao.update(user);
-			}
-		}
-	}
-
-	public void deleteUser(String id) {
-
-		for (User user : userDao.list()) {
-			if (user.getUserId().toString().contentEquals(id)) {
-				userDao.delete(user);
-			}
-		}
-
+	public void deleteUser(long id) {
+		User user = userDao.findUserById(id);
+		userDao.delete(user);
 	}
 
 	public List<User> listUsers() {
 		return userDao.list();
 	}
 
-	public List<User> listUsersExcept(int id) {
+	public List<User> listUsersExcept(long id) {
 		return userDao.listAllUsersExcept(id);
 	}
 
-	public User findUserByCredentials(String username, String password) {
-		return userDao.findUserByCredentials(username, password);
+	public User findUserByCredentials(String name, String password) {
+		return userDao.findUserByCredentials(name, password);
 	}
 
-	public User findUserById(int id) {
+	public User findUserById(long id) {
 		return userDao.findUserById(id);
 	}
 }

@@ -63,7 +63,7 @@
 					</form>
 				</c:if>
 				<c:if test="${!empty loggedUser}">
-					<pre>Welcome ${loggedUser.userName}</pre>
+					<pre>Welcome ${loggedUser.name}</pre>
 					<form action="home/logout" method="get">
 						<button type="submit" class="btn btn-success">Log-out</button>
 					</form>
@@ -81,10 +81,10 @@
 				<div class="tabbable">
 					<ul class="nav nav-pills nav-stacked span2">
 						<li class=""><a href="#tabs5-pane1" data-toggle="tab">Inbox<span
-							class="badge">${inboxSize}</span></a></li>
+								class="badge">${inboxSize}</span></a></li>
 						<li class="active"><a href="#tabs5-pane2" data-toggle="tab">Outbox<span
-							class="badge">${outboxSize}</span></a></li>
-							
+								class="badge">${outboxSize}</span></a></li>
+
 					</ul>
 					<div class="tab-content span5">
 						<div id="tabs5-pane1" class="tab-pane">
@@ -94,15 +94,20 @@
 										<th width="80">Sender</th>
 										<th width="80">Subject</th>
 										<th width="160">Content</th>
+										<th width="80">Date</th>
+										<th width="60">Delete</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${inbox}" var="message">
 										<tr class="clickableRow"
-											data-url="messages/${message.messageId}">
-											<td>${message.messageSender.userName}</td>
-											<td>${message.messageSubject}</td>
-											<td>${message.messageContent}</td>
+											data-url="messages/${message.id}">
+											<td>${message.sender.name}</td>
+											<td>${message.subject}</td>
+											<td>${message.content}</td>
+											<td>${message.date}</td>
+											<td><a
+												href="<c:url value='messages/delete/${user.id}' />">Delete</a></td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -115,15 +120,20 @@
 										<th width="80">Receiver</th>
 										<th width="80">Subject</th>
 										<th width="160">Content</th>
+										<th width="80">Date</th>
+										<th width="60">Delete</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${outbox}" var="message">
 										<tr class="clickableRow"
-											data-url="messages/${message.messageId}">
-											<td>${message.messageReceiver.userName}</td>
-											<td>${message.messageSubject}</td>
-											<td>${message.messageContent}</td>
+											data-url="messages/${message.id}">
+											<td>${message.receiver.name}</td>
+											<td>${message.subject}</td>
+											<td>${message.content}</td>
+											<td>${message.date}</td>
+											<td><a
+												href="<c:url value='messages/delete/${message.id}' />">Delete</a></td>
 										</tr>
 
 										<br>
@@ -137,6 +147,20 @@
 				<!-- /.tabbable -->
 			</div>
 		</div>
+	</div>
+	<div class="container">
+		<!-- Example row of columns -->
+		<div class="row">
+			<h2>${messageDetailed.sender.name} ${messageDetailed.subject}</h2>
+			<p>${messageDetailed.content}</p>
+
+		</div>
+
+		<hr>
+
+		<footer>
+			<p>&copy; Company 2014</p>
+		</footer>
 	</div>
 	<!-- /container -->
 

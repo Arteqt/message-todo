@@ -2,12 +2,17 @@ package com.example.todo.models;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table
@@ -15,67 +20,85 @@ public class Message implements java.io.Serializable {
 
 	private static final long serialVersionUID = -5001640410168279934L;
 
-	private Integer messageId;
-	private String messageSubject;
-	private User messageSender;
-	private User messageReceiver;
-	private String messageContent;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
+	private long id;
+
+	@Column
+	private String subject;
+
+	@ManyToOne
+	private User sender;
+
+	@ManyToOne
+	private User receiver;
+
+	@Column(nullable = false)
+	private String content;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date")
+	private Calendar date;
 
 	public Message() {
 	}
 
-	public Message(User messageSender, User messageReceiver,
-			String messageContent, String messageSubject) {
-		this.messageSender = messageSender;
-		this.messageReceiver = messageReceiver;
-		this.messageContent = messageContent;
-		this.messageSubject = messageSubject;
+	public Message(User sender, User receiver, String content, String subject) {
+		this.sender = sender;
+		this.receiver = receiver;
+		this.content = content;
+		this.subject = subject;
+		date = Calendar.getInstance();
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "messageId", unique = true, nullable = false)
-	public Integer getMessageId() {
-		return messageId;
+	public long getId() {
+		return id;
 	}
 
-	public void setMessageId(Integer messageId) {
-		this.messageId = messageId;
+	public void setId(long id) {
+		this.id = id;
 	}
 
-	@ManyToOne
-	public User getMessageSender() {
-		return messageSender;
+	public User getSender() {
+		return sender;
 	}
 
-	public void setMessageSender(User messageSender) {
-		this.messageSender = messageSender;
+	public void setSender(User sender) {
+		this.sender = sender;
 	}
 
-	@ManyToOne
-	public User getMessageReceiver() {
-		return messageReceiver;
+	public User getReceiver() {
+		return receiver;
 	}
 
-	public void setMessageReceiver(User messageReceiver) {
-		this.messageReceiver = messageReceiver;
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
 	}
 
-	@Column(name = "messageContent", nullable = false)
-	public String getMessageContent() {
-		return messageContent;
+	public String getContent() {
+		return content;
 	}
 
-	public void setMessageContent(String messageContent) {
-		this.messageContent = messageContent;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	@Column(name = "messageSubject", nullable = true)
-	public String getMessageSubject() {
-		return messageSubject;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setMessageSubject(String messageSubject) {
-		this.messageSubject = messageSubject;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
+
+	public Date getDate() {
+
+		return date.getTime();
+	}
+
+	public void setDate(Calendar date) {
+		this.date = date;
+	}
+
 }

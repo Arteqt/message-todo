@@ -18,22 +18,17 @@ public class MessageService implements Serializable {
 	@Autowired
 	private MessageDao messageDao;
 
-	public void sendMessage(String messageContent, String messageSubject,
-			User messageSender, User messageReceiver) {
-		Message message = new Message();
-		message.setMessageContent(messageContent);
-		message.setMessageSubject(messageSubject);
-		message.setMessageReceiver(messageReceiver);
-		message.setMessageSender(messageSender);
-
+	public void sendMessage(String content, String subject, User sender,
+			User receiver) {
+		Message message = new Message(sender, receiver, content, subject);
 		messageDao.save(message);
 	}
 
-	public void removeMessage(Message message) {
-		messageDao.delete(message);
+	public void removeMessage(long id) {
+		messageDao.delete(id);
 	}
 
-	public Message readMessage(int id) {
+	public Message readMessage(long id) {
 		return messageDao.findById(id);
 	}
 

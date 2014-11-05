@@ -15,62 +15,65 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "userName") })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "name") })
 public class User implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1473349524955527373L;
 
-	private Integer userId;
-	private String userName;
-	private String userPassword;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
+	private long id;
+
+	@Column(name = "name", unique = false, nullable = false)
+	private String name;
+
+	@Column(name = "password", unique = false, nullable = false)
+	private String password;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
 	private Set<Message> messages = new HashSet<Message>(0);
 
 	public User() {
 	}
 
-	public User(String userName, String userPassword) {
-		this.userName = userName;
-		this.userPassword = userPassword;
+	public User(String name, String password) {
+		this.name = name;
+		this.password = password;
 	}
 
-	public User(String userName, String userPassword, Set<Message> messages) {
-		this.userName = userName;
-		this.userPassword = userPassword;
+	public User(String name, String password, Set<Message> messages) {
+		this.name = name;
+		this.password = password;
 		this.messages = messages;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "userId", unique = true, nullable = false)
-	public Integer getUserId() {
-		return this.userId;
+	public long getId() {
+		return id;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setId(long id) {
+		this.id = id;
 	}
 
-	@Column(name = "userName", unique = false, nullable = false)
-	public String getUserName() {
-		return this.userName;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	@Column(name = "userPassword", unique = false, nullable = false)
-	public String getUserPassword() {
-		return this.userPassword;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "messageSender")
 	public Set<Message> getMessages() {
-		return this.messages;
+		return messages;
 	}
 
 	public void setMessages(Set<Message> messages) {

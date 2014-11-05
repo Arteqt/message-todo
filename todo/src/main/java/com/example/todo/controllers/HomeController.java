@@ -33,7 +33,7 @@ public class HomeController {
 		User loggedUser = (User) session.getAttribute("loggedUser");
 		if (loggedUser != null) {
 			List<User> otherUsers = userService.listUsersExcept(loggedUser
-					.getUserId());
+					.getId());
 			model.addAttribute("otherUsers", otherUsers);
 		}
 		model.addAttribute("user", user);
@@ -61,13 +61,12 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
-	public String send(@RequestParam("receiver") int messageReceiverId,
-			@RequestParam("subject") String messageSubject,
-			@RequestParam("content") String messageContent, HttpSession session) {
-		User messageSender = (User) session.getAttribute("loggedUser");
-		User messageReceiver = userService.findUserById(messageReceiverId);
-		messageService.sendMessage(messageContent, messageSubject,
-				messageSender, messageReceiver);
+	public String send(@RequestParam("receiver") long receiverId,
+			@RequestParam("subject") String subject,
+			@RequestParam("content") String content, HttpSession session) {
+		User sender = (User) session.getAttribute("loggedUser");
+		User receiver = userService.findUserById(receiverId);
+		messageService.sendMessage(content, subject, sender, receiver);
 		return "redirect:/home";
 	}
 }

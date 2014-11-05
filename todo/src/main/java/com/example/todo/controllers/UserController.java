@@ -40,19 +40,13 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{id}")
-	public String readUser(@PathVariable("id") String id, Model model) {
-		model.addAttribute("user", userService.readUser(id));
-		return "redirect:/users";
-	}
-
-	@RequestMapping(value = "/update/{id}")
-	public String updateUser(@PathVariable("id") String id) {
-		userService.updateUser(id);
+	public String findUserById(@PathVariable long id, Model model) {
+		model.addAttribute("user", userService.findUserById(id));
 		return "redirect:/users";
 	}
 
 	@RequestMapping(value = "/delete/{id}")
-	public String deleteUser(@PathVariable("id") String id) {
+	public String deleteUser(@PathVariable long id) {
 		userService.deleteUser(id);
 		return "redirect:/users";
 	}

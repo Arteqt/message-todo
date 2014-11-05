@@ -21,46 +21,46 @@
  
 <form:form action="${addAction}" commandName="user">
 <table>
-    <c:if test="${!empty user.userName}">
+    <c:if test="${!empty user.name}">
     <tr>
         <td>
-            <form:label path="userId">
+            <form:label path="id">
                 <spring:message text="ID"/>
             </form:label>
         </td>
         <td>
-            <form:input path="userId" readonly="true" size="8"  disabled="true" />
-            <form:hidden path="userId" />
+            <form:input path="id" readonly="true" size="8"  disabled="true" />
+            <form:hidden path="id" />
         </td> 
     </tr>
     </c:if>
     <tr>
         <td>
-            <form:label path="userName">
+            <form:label path="name">
                 <spring:message text="Name"/>
             </form:label>
         </td>
         <td>
-            <form:input path="userName" />
+            <form:input path="name" />
         </td> 
     </tr>
     <tr>
         <td>
-            <form:label path="userPassword">
+            <form:label path="password">
                 <spring:message text="Password"/>
             </form:label>
         </td>
         <td>
-            <form:input path="userPassword" />
+            <form:input path="password" />
         </td>
     </tr>
     <tr>
         <td colspan="2">
-            <c:if test="${!empty user.userName}">
+            <c:if test="${!empty user.name}">
                 <input type="submit"
                     value="<spring:message text="Edit User"/>" />
             </c:if>
-            <c:if test="${empty user.userName}">
+            <c:if test="${empty user.name}">
                 <input type="submit"
                     value="<spring:message text="Add User"/>" />
             </c:if>
@@ -81,11 +81,11 @@
     </tr>
     <c:forEach items="${listUsers}" var="user">
         <tr>
-            <td>${user.userId}</td>
-            <td>${user.userName}</td>
-            <td>${user.userPassword}</td>
-            <td><a href="<c:url value='users/update/${user.userId}' />" >Edit</a></td>
-            <td><a href="<c:url value='users/delete/${user.userId}' />" >Delete</a></td>
+            <td>${user.id}</td>
+            <td>${user.name}</td>
+            <td>${user.password}</td>
+            <td><a href="<c:url value='users/update/${user.id}' />" >Edit</a></td>
+            <td><a href="<c:url value='users/delete/${user.id}' />" >Delete</a></td>
         </tr>
     </c:forEach>
     </table>

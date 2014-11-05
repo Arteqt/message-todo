@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,10 +27,10 @@ public class MessageDao {
 		session.close();
 	}
 
-	public Message findById(Integer id) {
+	public Message findById(long id) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
-		criteria.add(Restrictions.eq("messageId", id));
+		criteria.add(Restrictions.eq("id", id));
 
 		Message message = (Message) criteria.uniqueResult();
 
@@ -40,6 +41,7 @@ public class MessageDao {
 	public List<Message> allMessages() {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
+		criteria.addOrder(Order.asc("date"));
 
 		@SuppressWarnings("unchecked")
 		List<Message> messageList = criteria.list();
@@ -51,7 +53,8 @@ public class MessageDao {
 	public List<Message> inbox(User receiver) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
-		criteria.add(Restrictions.eq("messageReceiver", receiver));
+		criteria.add(Restrictions.eq("receiver", receiver));
+		criteria.addOrder(Order.asc("date"));
 
 		@SuppressWarnings("unchecked")
 		List<Message> inbox = criteria.list();
@@ -63,8 +66,8 @@ public class MessageDao {
 	public List<Message> outbox(User sender) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
-		criteria.add(Restrictions.eq("messageSender", sender));
-
+		criteria.add(Restrictions.eq("sender", sender));
+		criteria.addOrder(Order.asc("date"));
 		@SuppressWarnings("unchecked")
 		List<Message> outbox = criteria.list();
 
@@ -72,10 +75,13 @@ public class MessageDao {
 		return outbox;
 	}
 
-	public void delete(Message message) {
+	public void delete(long id) {
 		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Message.class);
+		criteria.add(Restrictions.eq("id", id));
+
 		Transaction tx = session.beginTransaction();
-		session.delete(message);
+		session.delete(criteria.uniqueResult());
 		tx.commit();
 		session.close();
 	}

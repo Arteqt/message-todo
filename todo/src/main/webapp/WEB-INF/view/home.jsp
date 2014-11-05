@@ -63,7 +63,7 @@
 					</form>
 				</c:if>
 				<c:if test="${!empty loggedUser}">
-					<pre>Welcome ${loggedUser.userName}</pre>
+					<pre>Welcome ${loggedUser.name}</pre>
 					<form action="home/logout" method="get">
 						<button type="submit" class="btn btn-success">Log-out</button>
 					</form>
@@ -84,7 +84,7 @@
 						<label for="receiver">Receiver</label> <select name="receiver"
 							class="form-control">
 							<c:forEach items="${otherUsers}" var="user">
-								<option value="${user.userId}">${user.userName}</option>
+								<option value="${user.id}">${user.name}</option>
 							</c:forEach>
 
 
@@ -99,15 +99,16 @@
 						<textarea name="content" class="form-control" rows="3" id="content"
 							placeholder="Enter your message.."></textarea>
 					</div>
-					<button type="submit" class="btn btn-default">Send</button>
+					<button type="submit" class="btn btn-primary btn-lg">Send</button>
 				</form>
+				<br>
 				<p>
-				<a class="btn btn-primary btn-lg" role="button"
+				<a class="btn btn-default" role="button"
 					href="localhost:8080/todo/messages">See your messages &raquo;</a>
 				</p>
 			</c:if>
-			<c:if test="${empty loggedUser}"></c:if>
-			<p>Please login to send messages</p>
+			<c:if test="${empty loggedUser}">
+			<p>Please login to send messages</p></c:if>
 			
 		</div>
 	</div>
