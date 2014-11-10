@@ -64,18 +64,26 @@ public class MessageDao {
 	}
 
 	public List<Message> conversation(Message message) {
-		long root = message.getRoot();
+		Message root = message.getRoot();
 
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
 
-		criteria.add(Restrictions.eq("root", root));
-		criteria.addOrder(Order.desc("parent"));
+		if (root != null) {
+			criteria.add(Restrictions.or(Restrictions.eq("id", root.getId()),
+					Restrictions.eq("root", root)));
+		} else {
+			criteria.add(Restrictions.or(Restrictions.eq("root", message),
+					Restrictions.eq("id", message.getId())));
+		}
+
+		criteria.addOrder(Order.asc("parent"));
 
 		@SuppressWarnings("unchecked")
 		List<Message> conversation = criteria.list();
 
 		session.close();
+
 		return conversation;
 	}
 
@@ -90,4 +98,17 @@ public class MessageDao {
 		session.close();
 	}
 
+	public void updateRead(boolean isRead, long id) {
+		Message message = findById(id);
+		message.setIsRead(isRead);
+
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Message.class);
+		criteria.add(Restrictions.eq("id", id));
+
+		Transaction tx = session.beginTransaction();
+		session.update(criteria.uniqueResult());
+		tx.commit();
+		session.close();
+	}
 }

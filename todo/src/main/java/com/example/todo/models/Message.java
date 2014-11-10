@@ -10,9 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table
@@ -35,20 +38,21 @@ public class Message implements java.io.Serializable {
 	private User receiver;
 
 	@Column(nullable = false)
+	@Type(type = "text")
 	private String content;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date", nullable = false)
 	private Calendar date;
 
-	@Column(name = "isRead", columnDefinition = "tinyint default false")
-	private Boolean isRead;
+	@Column(name = "isRead", columnDefinition = "TINYINT(1)")
+	private boolean isRead;
 
-	@Column(name = "root")
-	private long root;
+	@OneToOne
+	private Message root;
 
-	@Column(name = "parent")
-	private long parent;
+	@OneToOne
+	private Message parent;
 
 	public Message() {
 	}
@@ -62,7 +66,7 @@ public class Message implements java.io.Serializable {
 	}
 
 	public Message(User sender, User receiver, String content, String subject,
-			long root, long parent) {
+			Message root, Message parent) {
 		this.sender = sender;
 		this.receiver = receiver;
 		this.content = content;
@@ -121,27 +125,27 @@ public class Message implements java.io.Serializable {
 		this.date = date;
 	}
 
-	public Boolean getIsRead() {
+	public boolean getIsRead() {
 		return isRead;
 	}
 
-	public void setIsRead(Boolean isRead) {
+	public void setIsRead(boolean isRead) {
 		this.isRead = isRead;
 	}
 
-	public long getRoot() {
+	public Message getRoot() {
 		return root;
 	}
 
-	public void setRoot(long root) {
+	public void setRoot(Message root) {
 		this.root = root;
 	}
 
-	public long getParent() {
+	public Message getParent() {
 		return parent;
 	}
 
-	public void setParent(long parent) {
+	public void setParent(Message parent) {
 		this.parent = parent;
 	}
 

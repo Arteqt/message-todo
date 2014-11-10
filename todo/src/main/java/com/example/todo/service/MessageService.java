@@ -36,6 +36,10 @@ public class MessageService implements Serializable {
 		return messageDao.findById(id);
 	}
 
+	public void updateRead(boolean isRead, long id) {
+		messageDao.updateRead(isRead, id);
+	}
+
 	public List<Message> getOutbox(User sender) {
 		return messageDao.outbox(sender);
 	}

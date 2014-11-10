@@ -85,15 +85,18 @@ public class MessageController {
 		userService.createUser(user3);
 
 		Message message1 = new Message(user1, user2, "message1", "message1");
-		Message message2 = new Message(user2, user1, "message2", "message2",
-				message1.getId(), message1.getId());
-		Message message3 = new Message(user1, user2, "message3", "message3",
-				message1.getId(), message2.getId());
-
 		messageService.createMessage(message1);
+		Message message2 = new Message(user2, user1, "message2", "message2",
+				message1, message1);
 		messageService.createMessage(message2);
+		Message message3 = new Message(user1, user2, "message3", "message3",
+				message1, message2);
 		messageService.createMessage(message3);
-
+		Message message4 = new Message(user3, user1, "message4", "message4");
+		messageService.createMessage(message4);
+		Message message5 = new Message(user1, user3, "message5", "message5",
+				message4, message4);
+		messageService.createMessage(message5);
 		return "redirect:/messages";
 	}
 }
