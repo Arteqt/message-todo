@@ -38,8 +38,17 @@ public class Message implements java.io.Serializable {
 	private String content;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date")
+	@Column(name = "date", nullable = false)
 	private Calendar date;
+
+	@Column(name = "isRead", columnDefinition = "tinyint default false")
+	private Boolean isRead;
+
+	@Column(name = "root")
+	private Message root;
+
+	@Column(name = "parent")
+	private Message parent;
 
 	public Message() {
 	}
@@ -99,6 +108,30 @@ public class Message implements java.io.Serializable {
 
 	public void setDate(Calendar date) {
 		this.date = date;
+	}
+
+	public Boolean getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(Boolean isRead) {
+		this.isRead = isRead;
+	}
+
+	public Message getRoot() {
+		return root;
+	}
+
+	public void setRoot(Message root) {
+		this.root = root;
+	}
+
+	public Message getParent() {
+		return parent;
+	}
+
+	public void setParent(Message parent) {
+		this.parent = parent;
 	}
 
 }

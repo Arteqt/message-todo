@@ -38,23 +38,11 @@ public class MessageDao {
 		return message;
 	}
 
-	public List<Message> allMessages() {
-		Session session = sessionFactory.openSession();
-		Criteria criteria = session.createCriteria(Message.class);
-		criteria.addOrder(Order.asc("date"));
-
-		@SuppressWarnings("unchecked")
-		List<Message> messageList = criteria.list();
-
-		session.close();
-		return messageList;
-	}
-
 	public List<Message> inbox(User receiver) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
 		criteria.add(Restrictions.eq("receiver", receiver));
-		criteria.addOrder(Order.asc("date"));
+		criteria.addOrder(Order.desc("date"));
 
 		@SuppressWarnings("unchecked")
 		List<Message> inbox = criteria.list();
@@ -67,12 +55,28 @@ public class MessageDao {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
 		criteria.add(Restrictions.eq("sender", sender));
-		criteria.addOrder(Order.asc("date"));
+		criteria.addOrder(Order.desc("date"));
 		@SuppressWarnings("unchecked")
 		List<Message> outbox = criteria.list();
 
 		session.close();
 		return outbox;
+	}
+
+	public List<Message> conversation(Message message) {
+		Message root = message.getRoot();
+
+		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(Message.class);
+
+		criteria.add(Restrictions.eq("root", root));
+		criteria.addOrder(Order.desc("parent"));
+
+		@SuppressWarnings("unchecked")
+		List<Message> conversation = criteria.list();
+
+		session.close();
+		return conversation;
 	}
 
 	public void delete(long id) {
@@ -86,11 +90,4 @@ public class MessageDao {
 		session.close();
 	}
 
-	public void update(Message message) {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.update(message);
-		tx.commit();
-		session.close();
-	}
 }
