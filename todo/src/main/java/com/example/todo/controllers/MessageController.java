@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.example.todo.models.Message;
 import com.example.todo.models.User;
 import com.example.todo.service.MessageService;
+import com.example.todo.service.UserService;
 
 @Controller
 @RequestMapping(value = "/messages")
@@ -21,6 +22,9 @@ public class MessageController {
 
 	@Autowired
 	private MessageService messageService;
+
+	@Autowired
+	private UserService userService;
 
 	// In-box and Out-box
 	@RequestMapping(method = RequestMethod.GET)
@@ -48,10 +52,48 @@ public class MessageController {
 
 	// Read Message
 	@RequestMapping(value = "/{id}")
-	public String readMessage(@PathVariable long id, Model model,
-			HttpSession session) {
+	public String readMessage(@PathVariable long id, HttpSession session) {
 		Message message = messageService.readMessage(id);
 		session.setAttribute("messageDetailed", message);
+		return "redirect:/messages";
+	}
+
+	@RequestMapping(value = "/reply/{id}")
+	public String replyMessage(@PathVariable long id, HttpSession session) {
+		Message message = messageService.readMessage(id);
+		session.setAttribute("replyMessage", message);
+		return "redirect:/home";
+	}
+
+	@RequestMapping(value = "/conversation/{id}")
+	public String conversation(@PathVariable long id, HttpSession session) {
+		Message message = messageService.readMessage(id);
+		List<Message> conversation = messageService.getConversation(message);
+		session.setAttribute("conversation", conversation);
+		return "redirect:/messages";
+	}
+
+	// Test: 3 User and 3 Message
+	@RequestMapping(value = "/setup")
+	public String setup() {
+		User user1 = new User("Okan", "123");
+		User user2 = new User("Destan", "123");
+		User user3 = new User("Zafer", "123");
+
+		userService.createUser(user1);
+		userService.createUser(user2);
+		userService.createUser(user3);
+
+		Message message1 = new Message(user1, user2, "message1", "message1");
+		Message message2 = new Message(user2, user1, "message2", "message2",
+				message1.getId(), message1.getId());
+		Message message3 = new Message(user1, user2, "message3", "message3",
+				message1.getId(), message2.getId());
+
+		messageService.createMessage(message1);
+		messageService.createMessage(message2);
+		messageService.createMessage(message3);
+
 		return "redirect:/messages";
 	}
 }

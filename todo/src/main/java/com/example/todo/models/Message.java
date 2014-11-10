@@ -45,10 +45,10 @@ public class Message implements java.io.Serializable {
 	private Boolean isRead;
 
 	@Column(name = "root")
-	private Message root;
+	private long root;
 
 	@Column(name = "parent")
-	private Message parent;
+	private long parent;
 
 	public Message() {
 	}
@@ -58,6 +58,17 @@ public class Message implements java.io.Serializable {
 		this.receiver = receiver;
 		this.content = content;
 		this.subject = subject;
+		date = Calendar.getInstance();
+	}
+
+	public Message(User sender, User receiver, String content, String subject,
+			long root, long parent) {
+		this.sender = sender;
+		this.receiver = receiver;
+		this.content = content;
+		this.subject = subject;
+		this.root = root;
+		this.parent = parent;
 		date = Calendar.getInstance();
 	}
 
@@ -118,19 +129,19 @@ public class Message implements java.io.Serializable {
 		this.isRead = isRead;
 	}
 
-	public Message getRoot() {
+	public long getRoot() {
 		return root;
 	}
 
-	public void setRoot(Message root) {
+	public void setRoot(long root) {
 		this.root = root;
 	}
 
-	public Message getParent() {
+	public long getParent() {
 		return parent;
 	}
 
-	public void setParent(Message parent) {
+	public void setParent(long parent) {
 		this.parent = parent;
 	}
 

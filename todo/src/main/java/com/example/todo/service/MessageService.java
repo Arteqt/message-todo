@@ -24,6 +24,10 @@ public class MessageService implements Serializable {
 		messageDao.save(message);
 	}
 
+	public void createMessage(Message message) {
+		messageDao.save(message);
+	}
+
 	public void removeMessage(long id) {
 		messageDao.delete(id);
 	}
@@ -38,5 +42,9 @@ public class MessageService implements Serializable {
 
 	public List<Message> getInbox(User receiver) {
 		return messageDao.inbox(receiver);
+	}
+
+	public List<Message> getConversation(Message message) {
+		return messageDao.conversation(message);
 	}
 }

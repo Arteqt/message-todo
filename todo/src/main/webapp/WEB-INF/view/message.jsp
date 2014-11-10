@@ -95,17 +95,19 @@
 										<th width="80">Subject</th>
 										<th width="160">Content</th>
 										<th width="80">Date</th>
+										<th width="60">Conversation</th>
 										<th width="60">Delete</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${inbox}" var="message">
-										<tr class="clickableRow"
-											data-url="messages/${message.id}">
+										<tr class="clickableRow" data-url="messages/${message.id}">
 											<td>${message.sender.name}</td>
 											<td>${message.subject}</td>
 											<td>${message.content}</td>
 											<td>${message.date}</td>
+											<td><a
+												href="<c:url value='messages/conversation/${message.id}' />">Conversation</a></td>
 											<td><a
 												href="<c:url value='messages/delete/${user.id}' />">Delete</a></td>
 										</tr>
@@ -121,17 +123,19 @@
 										<th width="80">Subject</th>
 										<th width="160">Content</th>
 										<th width="80">Date</th>
+										<th width="60">Conversation</th>
 										<th width="60">Delete</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach items="${outbox}" var="message">
-										<tr class="clickableRow"
-											data-url="messages/${message.id}">
+										<tr class="clickableRow" data-url="messages/${message.id}">
 											<td>${message.receiver.name}</td>
 											<td>${message.subject}</td>
 											<td>${message.content}</td>
 											<td>${message.date}</td>
+											<td><a
+												href="<c:url value='messages/conversation/${message.id}' />">Conversation</a></td>
 											<td><a
 												href="<c:url value='messages/delete/${message.id}' />">Delete</a></td>
 										</tr>
@@ -151,9 +155,15 @@
 	<div class="container">
 		<!-- Example row of columns -->
 		<div class="row">
-			<h2>${messageDetailed.sender.name} ${messageDetailed.subject}</h2>
-			<p>${messageDetailed.content}</p>
-
+			<div class="col-md-4">
+				<h2>${messageDetailed.sender.name}${messageDetailed.subject}</h2>
+				<p>${messageDetailed.content}</p>
+			</div>
+			<div>
+				<c:forEach items="${conversation}" var="message">
+				<p>${message.subject}</p>
+				</c:forEach>
+			</div>
 		</div>
 
 		<hr>

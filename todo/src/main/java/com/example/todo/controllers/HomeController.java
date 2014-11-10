@@ -64,9 +64,11 @@ public class HomeController {
 	public String send(@RequestParam("receiver") long receiverId,
 			@RequestParam("subject") String subject,
 			@RequestParam("content") String content, HttpSession session) {
+
 		User sender = (User) session.getAttribute("loggedUser");
 		User receiver = userService.findUserById(receiverId);
 		messageService.sendMessage(content, subject, sender, receiver);
 		return "redirect:/home";
 	}
+
 }

@@ -64,7 +64,7 @@ public class MessageDao {
 	}
 
 	public List<Message> conversation(Message message) {
-		Message root = message.getRoot();
+		long root = message.getRoot();
 
 		Session session = sessionFactory.openSession();
 		Criteria criteria = session.createCriteria(Message.class);
