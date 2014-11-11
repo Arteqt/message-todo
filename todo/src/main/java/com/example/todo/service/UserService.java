@@ -22,8 +22,7 @@ public class UserService implements Serializable {
 	}
 
 	public void deleteUser(long id) {
-		User user = userDao.findUserById(id);
-		userDao.delete(user);
+		userDao.delete(id);
 	}
 
 	public List<User> listUsers() {

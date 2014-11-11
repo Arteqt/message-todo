@@ -68,10 +68,13 @@ public class UserDao {
 		return userList;
 	}
 
-	public void delete(User user) {
+	public void delete(long id) {
 		Session session = sessionFactory.openSession();
+		Criteria criteria = session.createCriteria(User.class);
+		criteria.add(Restrictions.eq("id", id));
+
 		Transaction tx = session.beginTransaction();
-		session.delete(user);
+		session.delete(criteria.uniqueResult());
 		tx.commit();
 		session.close();
 	}
